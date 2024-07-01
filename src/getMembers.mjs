@@ -21,7 +21,7 @@ let { members, publications, keywords } = await transform(
 );
 
 generateMD(
-  "/Users/dimitri/Documents/workspace2/recherche/Admin/THS/hal-estia/",
+  "/Users/dimitri/Documents/workspace2/recherche/Admin/THS/hal-estia-2024/",
   members,
   publications,
   keywords
@@ -45,7 +45,7 @@ async function getAllPublicationFromWeb() {
     "uri_s",
   ];
   let filter = {
-    producedDateY_i: "[2016 TO 2021}",
+    producedDateY_i: "[2016 TO 2026}",
   };
   let query = {
     structure_t: '(39415 OR 300425 OR "ESTIA Recherche" OR "ESTIA")',
@@ -275,7 +275,7 @@ function generateMD(destinationPath, members, publications, keywords) {
   // publications
   fs.mkdirSync(destinationPath + "publications", { recursive: true });
   //publication year
-  Array(2023 - 2016 + 1)
+  Array(2024 - 2016 + 1)
     .fill(2016)
     .map((year, index) => {
       fs.mkdirSync(destinationPath + "publications/" + (year + index), {
@@ -328,7 +328,7 @@ function generateMD(destinationPath, members, publications, keywords) {
     content = members[member].firstName + " " + members[member].lastName + "\n";
     content += "## Publications\n";
     content += "```dataview\n";
-    content += `table without id document, publication-date, link(file.path,title_s) from "hal-estia/publications" and [[#]]
+    content += `table without id document, publication-date, link(file.path,title_s) from "publications" and [[#]]
     sort document, publication-date desc\n`;
     content += "```";
     // for (let publication of members[member].publications) {
@@ -372,11 +372,11 @@ function generateMD(destinationPath, members, publications, keywords) {
     }]]\n`;
     content += "## Authors\n";
     for (let author of publication.authors) {
-      content += `- [[${author.authIdHal_s}|${author.firstName} ${author.lastName}]]\n`;
+      content += `- authors::[[${author.authIdHal_s}|${author.firstName} ${author.lastName}]]\n`;
     }
     content += "## Keywords\n";
     for (let keyword of publication.keywords) {
-      content += `- [[${keyword.safe}|${keyword.map[halId]}]]\n`;
+      content += `- keywords::[[${keyword.safe}|${keyword.map[halId]}]]\n`;
     }
 
     content += "## Abstract\n";
